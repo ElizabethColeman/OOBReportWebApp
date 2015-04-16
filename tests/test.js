@@ -1,60 +1,60 @@
-(function(){
-    var app = angular.module("OOBReport",[ ]);
+/**
+ * Created by Beth on 4/9/2015.
+ */
 
-    app.controller('PersonController', ['$scope', function($scope){
-        $scope.addPersonInfo = function(person){
-            Person.push(person);
-            this.person = {};
-        };
+describe("OOB Report Unit Tests", function () {
 
-        $scope.Person = [
-            {
-                "firstName": "",
-                "lastName": "",
-                "contactNumber": "",
-                "purposeOfTrip": "",
-                "filerSTS": "",
-                "groupSTS": "",
+    // Arrange
+    beforeEach(angular.mock.module("OOBReport"));
+
+    describe("submitting info from page to model", function(){
+
+        it("adds a person to model", function(){
+        // Act
+        // Create a person
+        // Test the method
+        // Assert: See if the two are the same
+            var mockScope = {};
+
+            var person = {
+                "firstName": "Jon",
+                "lastName": "Moores",
+                "contactNumber": "417-326-1234",
+                "purposeOfTrip": "college outreach",
+                "filerSTS": "Teach English",
+                "groupSTS": "Teach English",
                 "locationContact": [
                     {
-                        "locConFirNm": "",
-                        "locConLasNm": "",
-                        "locConContNum": ""
+                        "locConFirNm": "Elizabeth",
+                        "locConLasNm": "Coleman",
+                        "locConContNum": "605-842-1234"
                     }
                 ],
                 "fellowTravelers": [
                     {
-                        "firstName": "",
-                        "lastName": "",
-                        "contactNumber": ""
+                        "firstName": "Joe",
+                        "lastName": "Miler",
+                        "contactNumber": "417-844-1234"
                     }
                 ],
                 "elevatedRisk": [
                     {
                         "elevRisk": false,
-                        "elevRiskContFName": "",
-                        "elevRiskContLName": "",
-                        "elevRiskContNum": "",
-                        "elevRiskContFrm": ""
+                        "elevRiskContFName": "Julie",
+                        "elevRiskContLName": "McGlaughlin",
+                        "elevRiskContNum": "417-328-1234",
+                        "elevRiskContFrm": "phone"
                     }
                 ]
             }
-        ];
-    }]);
+        }); // it
 
-	app.controller('TransportationController', ['$scope', function($scope) {
-
-        $scope.addTransInfo = function (transport) {
-            Transport.push(transport);
-            this.transport = {};
-        };
-
-        $scope.Transport = [
-            {
-                "departureDay": "",
-                "legDestination": "",
+        it("adds transportation to model", function(){
+            var transport = {
+                "departureDay": "05-08-15",
+                "legDestination": "Beijing",
                 "finalDest": false,
-                "type": "",
+                "type": "place",
                 "vehicle": [
                     {
                         "type": "",
@@ -93,7 +93,7 @@
                         ],
                         "priv": [
                             {
-                                "desc": ""
+                                "desc": "Josh Oryall is flying us in his private plane."
                             }
                         ]
                     }
@@ -109,24 +109,17 @@
                     }
                 ]
             }
-        ];
-    }]);
+        }); // it
 
-    app.controller('LodgingController', ['$scope', function($scope){
-    	$scope.addLodgingInfo = function(lodging){
-        	Lodging.push(lodging);
-        	this.lodging = {};
-        };
-
-        $scope.Lodging = [
-            {
-                "type": "",
+        it("adds lodging to model", function(){
+            var lodging = {
+                "type": "hotel",
                 "hotel": [
                     {
-                        "name": "",
-                        "address": "",
-                        "phone": "",
-                        "nights": ""
+                        "name": "Mariot",
+                        "address": "1234 Tenth Avenue North",
+                        "phone": "1-800-294-2642",
+                        "nights": "14"
                     }
                 ],
                 "privateResidence": [
@@ -147,6 +140,6 @@
                     }
                 ]
             }
-        ]
-	}]);
-})();
+        }); // it
+    }); // describe
+}); // describe

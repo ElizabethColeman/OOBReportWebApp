@@ -1,15 +1,20 @@
 <!DOCTYPE html>
+<html ng-app="OOBReport">
 	<head>
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css" />
+        <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+
 		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 		<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
-		<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
-		<script type='text/javascript' src='OOB.js'></script>>
+        <script type ="text/javascript" src="angular.min.js"></script>
+        <script type="text/javascript" src="OOB.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/prototype/1.7.0.0/prototype.js" type="text/javascript"></script>
+
 	</head>
 
 	<body>
 
-		<div id = "login_page" data-role = "page">
+    <div id = "login_page" data-role = "page">
 
 			<a href="#contact_information" data-transition="slide" class="ui-btn ui-corner-all ui-btn-inline">Log in</a>
 
@@ -46,7 +51,7 @@
 				<label id = "location_contact_last_name_lbl">Last Name: </label><input type = "text" id = "location_contact_last_name"/><br/>
 				<label id = "location_contact_phone_number_lbl">Phone: </label><input type = "text" id = "location_contact_number" /><br/>
 
-				<label id = "elevated_risk_lbl">Elevated Risk Situation? </label><input type = "checkbox" id = "elevated_risk_check" onchange = "elevated_risk()"/>
+				<label id = "elevated_risk_lbl">Elevated Risk Situation? </label><input type = "checkbox" id = "elevated_risk_check"/>
 
 				<div id = "elevated_risk_situation">
 
@@ -78,32 +83,31 @@
 			<h1>Transportation Information</h1>
 
 			<label>Day of Departure: </label>
-			<input type = "text" id = "day_of_departure"></input><br/> 
+			<input type = "text" ng-model="transportCtrl.dayOfDeparture" id = "day_of_departure"/><br/>
 			<label>Leg Destination: </label>
-			<input type = "text" id = "destination_of_leg"/><br/>
+			<input type = "text" ng-model="transportCtrl.legDestination" id = "destination_of_leg"/><br/>
 			<label>Final Destination? </label>
-			<input type = "checkbox" id = "final_dest_indicator"/><br/>
+			<input type = "checkbox" ng-model="transportCtrl.finalDestination" id="final_dest_indicator"/><br/>
 
 			<label>Mode of Travel:</label>
 			<form action = "" id = "mode_of_travel_selector">
 					
-					<select id = "mode_of_travel" onchange = "transportation_choice()">
+					<select id = "mode_of_travel" ng-model="transportCtrl.modeOfTravel" ng-controller="TravelModeController as travelmode">
 						<option value = " "> </option>
-						<option value = "Vehicle" >Vehicle</option>
-						<option value = "Plane" >Plane</option>
-						<option value = "Train" >Train</option>
-						<option value = "other" >Other</option>
+						<option value = "Vehicle" ng-click="expand = 1">Vehicle</option>
+						<option value = "Plane" ng-click="expand = 2">Plane</option>
+						<option value = "Train" ng-click="expand = 3">Train</option>
+						<option value = "other" ng-click="expand = 4">Other</option>
 					</select> <!--select mode_of_travel-->
-			
 			</form> <!--form mode_of_travel_selector-->
 
-			<div id = "vehicle_mode_of_travel">
+			<div ng-show="expand === 1" id = "vehicle_mode_of_travel">
 				
 				<label>Type of Vehicle:</label>
 
 				<form action = "">
 						
-						<select id = "type_of_vehicle" onchange = "vehicle_type_choice()">
+						<select id = "type_of_vehicle" ng-model="transportCtrl.typeOfVehicle" id = "vehicle_type_choice()">
 							<option value = " "> </option>
 							<option value = "Rental">Rental</option>
 							<option value = "Private">Private</option>
@@ -113,15 +117,15 @@
 				</form>
 		
 				<div id = "vehicle_type_rental">
-			
+
 					<label id = "rental_car_company" >Company: </label> 
-					<input type = "text" id = "rental_car_company"/><br/>
+					<input type = "text" ng-model="transportCtrl.rentalCarCompany" id = "rental_car_company"/><br/>
 					<label id = "rental_car_pickup_date">Pickup Date: </label>
-					<input type = "text" id = "rental_car_pickup_date"/><br/>
+					<input type = "text" ng-model="transportCtrl.rentalCarPickupDate" id = "rental_car_pickup_date"/><br/>
 					<label id = "rental_car_dropoff_date">Dropoff Date: </label>
-					<input type = "text" id = "rental_car_dropoff_date"/><br/>
+					<input type = "text" ng-model="transportCtrl.rentalCarDropoffDate" id = "rental_car_dropoff_date"/><br/>
 					<label id = "rental_car_description">Car Description: </label>
-					<input type = "text" id = "rental_car_description"/><br/>
+					<input type = "text" ng-model="transportCtrl.rentalCarDescription" id = "rental_car_description"/><br/>
 					
 					<input type = "button" value = "Eticket Upload"/><br/>
 			
@@ -130,14 +134,14 @@
 				<div id = "vehicle_type_public">
 		
 					<label id = "public_vehicle_desc">Pertinent Transportation Information: </label>
-					<input type = "text" id = "public_vehicle_desc"/>
+					<input type = "text" ng-model="transportCtrl.publicVehicleDesc" id = "public_vehicle_desc"/>
 		
 				</div><!--vehicle_type_public-->
 
 				<div id = "vehicle_type_private">
 			
 					<label id = "private_vehicle_desc">Pertinent Transportation Information: </label>
-					<input type = "text" id = "private_vehicle_desc"/>
+					<input type = "text" ng-model="transportCtrl.privateVehicleDesc" id = "private_vehicle_desc"/>
 		
 				</div><!--vehicle_type_private-->
 
@@ -148,7 +152,7 @@
 				<label>Type of Air Transport:</label>
 
 				<form action = "">
-						<select id = "type_of_plane" onchange = "plane_type_choice()">
+						<select ng-model="transportCtrl.typeOfPlane" id = "type_of_plane" onchange = "plane_type_choice()">
 							<option value = " "> </option>
 							<option value = "Commercial">Commercial</option>
 							<option value = "Private">Private</option>
@@ -158,24 +162,24 @@
 				<div id = "plane_type_private">
 			
 					<label id = "private_plane_desc">Pertinent Information: </label>
-					<input type = "text" id = "private_plane_desc"/>
+					<input type = "text" ng-model="transportCtrl.privatePlaneDesc" id = "private_plane_desc"/>
 			
 				</div><!--div plane_type_private-->
 
 				<div id = "plane_type_commercial">
 			
 					<label id = "commercial_flight_number">Flight Number: </label>
-					<input type = "text" id = "commercial_flight_number"/><br/>
+					<input type = "text" ng-model="transportCtrl.commercialFlightNumber" id = "commercial_flight_number"/><br/>
 					<label id = "commercial_flight_carrier">Flight Carrier: </label>
-					<input type = "text" id = "commercial_flight_carrier"/><br/>
+					<input type = "text" ng-model="transportCtrl.commercialFlightCarrier" id = "commercial_flight_carrier"/><br/>
 					<label id = "commercial_flight_airport_departed">Airport Departed: </label>
-					<input type = "text" id = "commercial_flight_airport_departed"/><br/>
+					<input type = "text"  ng-model="transportCtrl.commercialFlightAirportDeparted" id = "commercial_flight_airport_departed"/><br/>
 					<label id = "commercial_flight_departure_time">Departure Time: </label> 
-					<input type = "text" id = "commercial_flight_departure_time"/><br/>
+					<input type = "text" ng-model="transportCtrl.commercialFlightDepartureTime" id = "commercial_flight_departure_time"/><br/>
 					<label id = "commercial_flight_arrival_airport">Airport Arrived At: </label>
-					<input type = "text" id = "commercial_flight_arrival_airport"/><br/>
+					<input type = "text" ng-model="transportCtrl.commercialFlightArrivalAirport" id = "commercial_flight_arrival_airport"/><br/>
 					<label id = "commercial_flight_arrival_time">Arrival Time: </label>
-					<input type = "text" id = "commercial_flight_arrival_time"/><br/>
+					<input type = "text" ng-model="transportCtrl.commercialFlightArrivalTime" id = "commercial_flight_arrival_time"/><br/>
 					
 					<input type = "button" value = "Eticket Upload"/> 
 			
@@ -187,7 +191,7 @@
 			<div id = "train_mode_of_travel">
 			
 				<label id = "train_transport_desc">Pertinent Information: </label>
-				<input type = "text" id = "train_transport_desc"/>
+				<input type = "text" ng-model="transportCtrl.trainTransportDesc" id = "train_transport_desc"/>
 		
 			</div> <!--div train_mode_of_travel-->
 			
@@ -195,11 +199,11 @@
 			<div id = "other_mode_of_travel">	
 				
 				<label id = "other_transport_desc">Pertinent Information: </label>
-				<input type = "text" id = "other_transport_desc"/>
+				<input type = "text" ng-model="transportCtrl.otherTransportDesc" id = "other_transport_desc"/>
 		
 			</div><!--div other_mode_of_travel-->
 
-			<a href="#lodging_information" data-transition="slide" class="ui-btn ui-corner-all ui-btn-inline">Continue</a>
+			<a href="#lodging_information" data-transition="slide" class="ui-btn ui-corner-all ui-btn-inline" ng-click="transportCtrl.addTransport()">Continue</a>
 
 		</div> <!--div transportation_information-->
 
@@ -274,3 +278,4 @@
 
 		</div><!--div review_page-->
 	</body><!--body-->
+</html>
